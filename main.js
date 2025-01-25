@@ -28,36 +28,30 @@ for (let c = 0; c < brickColumnCount; c += 1) {
     }
 }
 
-document.addEventListener('keydown', keyDownHandler, false);
-document.addEventListener('keyup', keyUpHandler, false);
-document.addEventListener('mousemove', mouseMoveHandler, false);
-
-function keyDownHandler(e) {
+document.addEventListener('keydown', (e) => {
     if (e.code === 'ArrowRight') {
         rightPressed = true;
-    }
-    else if (e.code === 'ArrowLeft') {
+    } else if (e.code === 'ArrowLeft') {
         leftPressed = true;
     }
-}
+}, false);
 
-function keyUpHandler(e) {
+document.addEventListener('keyup', (e) => {
     if (e.code === 'ArrowRight') {
         rightPressed = false;
-    }
-    else if (e.code === 'ArrowLeft') {
+    } else if (e.code === 'ArrowLeft') {
         leftPressed = false;
     }
-}
+}, false);
 
-function mouseMoveHandler(e) {
+document.addEventListener('mousemove', (e) => {
     const relativeX = e.clientX - canvas.offsetLeft;
     if (relativeX > 0 && relativeX < canvas.width) {
         paddleX = relativeX - paddleWidth / 2;
     }
-}
+}, false);
 
-function collisionDetection() {
+const collisionDetection = () => {
     for (let c = 0; c < brickColumnCount; c += 1) {
         for (let r = 0; r < brickRowCount; r += 1) {
             const b = bricks[c][r];
@@ -74,29 +68,29 @@ function collisionDetection() {
             }
         }
     }
-}
+};
 
-function drawBall() {
+const drawBall = () => {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
     ctx.fillStyle = '#0095DD';
     ctx.fill();
     ctx.closePath();
-}
+};
 
-function makeBox(x, y, width, height, color) {
+const makeBox = (x, y, width, height, color) => {
     ctx.beginPath();
     ctx.rect(x, y, width, height);
     ctx.fillStyle = color;
     ctx.fill();
     ctx.closePath();
-}
+};
 
-function drawPaddle() {
+const drawPaddle = () => {
     makeBox(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight, '#0095DD');
-}
+};
 
-function drawBricks() {
+const drawBricks = () => {
     for (let c = 0; c < brickColumnCount; c += 1) {
         for (let r = 0; r < brickRowCount; r += 1) {
             if (bricks[c][r].status === 1) {
@@ -108,21 +102,21 @@ function drawBricks() {
             }
         }
     }
-}
+};
 
-function drawScore() {
+const drawScore = () => {
     ctx.font = '16px Arial';
     ctx.fillStyle = '#0095DD';
     ctx.fillText(`Score: ${score}`, 8, 20);
-}
+};
 
-function drawLives() {
+const drawLives = () => {
     ctx.font = '16px Arial';
     ctx.fillStyle = '#0095DD';
     ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
-}
+};
 
-function draw() {
+const draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawBall();
@@ -136,18 +130,15 @@ function draw() {
     }
     if (y + dy < ballRadius) {
         dy = -dy;
-    }
-    else if (y + dy > canvas.height - ballRadius) {
+    } else if (y + dy > canvas.height - ballRadius) {
         if (x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
-        }
-        else {
+        } else {
             lives--;
             if (!lives) {
                 alert('GAME OVER');
                 document.location.reload();
-            }
-            else {
+            } else {
                 x = canvas.width / 2;
                 y = canvas.height - 30;
                 dx = (Math.random() * 4 - 2);
@@ -159,14 +150,13 @@ function draw() {
 
     if (rightPressed && paddleX < canvas.width - paddleWidth) {
         paddleX += 7;
-    }
-    else if (leftPressed && paddleX > 0) {
+    } else if (leftPressed && paddleX > 0) {
         paddleX -= 7;
     }
 
     x += dx;
     y += dy;
     requestAnimationFrame(draw);
-}
+};
 
 draw();
