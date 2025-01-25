@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 const ballRadius = 10;
 let x = canvas.width / 2;
 let y = canvas.height - 30;
-let dx = 2;
+let dx = (Math.random() * 4 - 2);
 let dy = -2;
 const paddleHeight = 10;
 const paddleWidth = 75;
@@ -150,7 +150,7 @@ function draw() {
             else {
                 x = canvas.width / 2;
                 y = canvas.height - 30;
-                dx = 2;
+                dx = (Math.random() * 4 - 2);
                 dy = -2;
                 paddleX = (canvas.width - paddleWidth) / 2;
             }
