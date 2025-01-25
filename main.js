@@ -84,12 +84,16 @@ function drawBall() {
     ctx.closePath();
 }
 
-function drawPaddle() {
+function makeBox(x, y, width, height, color) {
     ctx.beginPath();
-    ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = '#0095DD';
+    ctx.rect(x, y, width, height);
+    ctx.fillStyle = color;
     ctx.fill();
     ctx.closePath();
+}
+
+function drawPaddle() {
+    makeBox(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight, '#0095DD');
 }
 
 function drawBricks() {
@@ -100,11 +104,7 @@ function drawBricks() {
                 const brickY = (c * (brickHeight + brickPadding)) + brickOffsetTop;
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
-                ctx.beginPath();
-                ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = '#0095DD';
-                ctx.fill();
-                ctx.closePath();
+                makeBox(brickX, brickY, brickWidth, brickHeight, '#0095DD');
             }
         }
     }
