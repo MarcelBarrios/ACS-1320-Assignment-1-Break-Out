@@ -73,7 +73,7 @@ const collisionDetection = () => {
 const drawBall = () => {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-    ctx.fillStyle = '#0095DD';
+    ctx.fillStyle = '#FF5733';
     ctx.fill();
     ctx.closePath();
 };
@@ -87,7 +87,7 @@ const makeBox = (x, y, width, height, color) => {
 };
 
 const drawPaddle = () => {
-    makeBox(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight, '#0095DD');
+    makeBox(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight, '#C70039');
 };
 
 const drawBricks = () => {
@@ -98,7 +98,8 @@ const drawBricks = () => {
                 const brickY = (c * (brickHeight + brickPadding)) + brickOffsetTop;
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
-                makeBox(brickX, brickY, brickWidth, brickHeight, '#0095DD');
+                const colors = ['#28B463', '#2874A6', '#AF7AC5', '#F1C40F', '#E74C3C'];
+                makeBox(brickX, brickY, brickWidth, brickHeight, colors[r % colors.length]);
             }
         }
     }
@@ -106,18 +107,21 @@ const drawBricks = () => {
 
 const drawScore = () => {
     ctx.font = '16px Arial';
-    ctx.fillStyle = '#0095DD';
+    ctx.fillStyle = '#FFFFFF';
     ctx.fillText(`Score: ${score}`, 8, 20);
 };
 
 const drawLives = () => {
     ctx.font = '16px Arial';
-    ctx.fillStyle = '#0095DD';
+    ctx.fillStyle = '#FFFFFF';
     ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
 };
 
 const draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#1C2833';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     drawBricks();
     drawBall();
     drawPaddle();
