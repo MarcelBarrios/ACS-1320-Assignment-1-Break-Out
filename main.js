@@ -27,16 +27,59 @@ let score = 0;
 let lives = 3;
 
 class Ball {
-    constructor(x = 0, y = 0, dx = -2, dy = -2, radius = 10) {
+    constructor(x = 0, y = 0, dx = -2, dy = -2, radius = 10, color = 'red') {
         this.x = x;
         this.y = y;
         this.dx = dx;
         this.dy = dy;
         this.radius = radius;
+        this.color = color;
+    }
+
+    render() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, PI2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.closePath();
+    };
+}
+
+class Brick {
+    constructor(x, y, width, height, color) {
+        this.x = x;
+        this.y = y;
+        this.status = 1;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+    }
+
+    render(brick, color) {
+        makeBox(brick.x, brick.y, brickWidth, brickHeight, color);
     }
 }
 
-let ball = new Ball();
+class Bricks {
+    constructor(cols, rows) {
+
+    }
+
+    init() {
+        for (let c = 0; c < brickColumnCount; c += 1) {
+            bricks[c] = [];
+            for (let r = 0; r < brickRowCount; r += 1) {
+                const brickX = (r * (brickWidth + brickPadding)) + brickOffsetLeft;
+                const brickY = (c * (brickHeight + brickPadding)) + brickOffsetTop;
+                bricks[c][r] = new Brick(brickX, brickY, brickWidth, brickHeight, column1Color);
+            }
+        }
+    }
+}
+
+const bricks = new Bricks(brickColumnCount, brickRowCount);
+
+let ball = new Ball(0, 0, 2, -2, ballRadius, ballColor);
 
 let paddleX;
 
@@ -44,19 +87,6 @@ resetBallAndPaddle();
 
 let rightPressed = false;
 let leftPressed = false;
-
-const bricks = [];
-
-initializeBrick();
-
-function initializeBrick() {
-    for (let c = 0; c < brickColumnCount; c += 1) {
-        bricks[c] = [];
-        for (let r = 0; r < brickRowCount; r += 1) {
-            bricks[c][r] = { x: 0, y: 0, status: 1 };
-        }
-    }
-}
 
 document.addEventListener('keydown', (e) => {
     if (e.code === 'ArrowRight') {
@@ -103,14 +133,6 @@ const collisionDetection = () => {
     }
 };
 
-const drawBall = () => {
-    ctx.beginPath();
-    ctx.arc(ball.x, ball.y, ball.radius, 0, PI2);
-    ctx.fillStyle = ballColor;
-    ctx.fill();
-    ctx.closePath();
-};
-
 const makeBox = (x, y, width, height, color) => {
     ctx.beginPath();
     ctx.rect(x, y, width, height);
@@ -126,13 +148,10 @@ const drawPaddle = () => {
 const drawBricks = () => {
     for (let c = 0; c < brickColumnCount; c += 1) {
         for (let r = 0; r < brickRowCount; r += 1) {
-            if (bricks[c][r].status === 1) {
-                const brickX = (r * (brickWidth + brickPadding)) + brickOffsetLeft;
-                const brickY = (c * (brickHeight + brickPadding)) + brickOffsetTop;
-                bricks[c][r].x = brickX;
-                bricks[c][r].y = brickY;
+            const brick = bricks[c][r];
+            if (brick.status === 1) {
                 const colors = [column1Color, column2Color, column3Color, column4Color, column5Color];
-                makeBox(brickX, brickY, brickWidth, brickHeight, colors[r % colors.length]);
+                brick.render(brick, colors[r % colors.length]);
             }
         }
     }
@@ -198,7 +217,7 @@ const draw = () => {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     drawBricks();
-    drawBall();
+    ball.render(ctx);
     drawPaddle();
     drawScore();
     drawLives();
