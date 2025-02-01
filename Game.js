@@ -3,7 +3,6 @@ class Game {
         this.canvas = document.getElementById(canvasId);
         this.ctx = canvas.getContext('2d');
 
-
         this.ballRadius = 10;
         this.paddleHeight = 10;
         this.paddleWidth = 75;
@@ -27,10 +26,6 @@ class Game {
         this.colorWhiteText = '#FFFFFF';
         this.backgroundColor = '#1C2833';
         this.gameOverMessage = 'GAME OVER';
-
-
-
-
 
         this.scoreLabel = new GameLabel('Score: ', 8, 20);
         this.livesLabel = new GameLabel('Lives: ', this.canvas.width - 65, 20);
@@ -144,9 +139,7 @@ class Game {
     }
 
     draw() {
-        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        ctx.fillStyle = backgroundColor;
-        ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.background.render(this.ctx, this.backgroundColor);
 
         this.bricks.render(this.ctx);
         this.ball.render(this.ctx);
