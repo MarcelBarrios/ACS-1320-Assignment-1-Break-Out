@@ -1,7 +1,7 @@
 class Game {
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
-        this.ctx = canvas.getContext('2d');
+        this.ctx = this.canvas.getContext('2d');
 
         this.ballRadius = 10;
         this.paddleHeight = 10;
@@ -13,25 +13,31 @@ class Game {
         this.brickPadding = 10;
         this.brickOffsetTop = 30;
         this.brickOffsetLeft = 30;
-        this.paddleXStart = (canvas.width - paddleWidth) / 2;
-        this.paddleYStart = canvas.height - paddleHeight;
-        this.PI2 = Math.PI * 2;
+        this.paddleXStart = (this.canvas.width - this.paddleWidth) / 2;
+        this.paddleYStart = this.canvas.height - this.paddleHeight;
         this.ballColor = '#FF5733';
-        this.column1Color = '#28B463';
-        this.column2Color = '#2874A6';
-        this.column3Color = '#AF7AC5';
-        this.column4Color = '#F1C40F';
-        this.column5Color = '#E74C3C';
         this.paddleColor = '#C70039';
         this.colorWhiteText = '#FFFFFF';
         this.backgroundColor = '#1C2833';
         this.gameOverMessage = 'GAME OVER';
 
+        this.background = new Background(this.ctx, this.backgroundColor, this.canvas);
         this.scoreLabel = new GameLabel('Score: ', 8, 20);
         this.livesLabel = new GameLabel('Lives: ', this.canvas.width - 65, 20);
-        this.paddle = new Paddle(paddleXStart, paddleYStart, paddleWidth, paddleHeight, paddleColor);
-        this.ball = new Ball(0, 0, 2, -2, ballRadius, ballColor);
-        this.bricks = new Bricks(brickColumnCount, brickRowCount, this.ctx);
+        this.paddle = new Paddle(this.paddleXStart, this.paddleYStart, this.paddleWidth, this.paddleHeight, this.paddleColor, this.ctx);
+        this.ball = new Ball(0, 0, 2, -2, this.ballRadius, this.ballColor, this.ctx);
+        this.bricks = new Bricks({
+            cols: this.brickColumnCount,
+            rows: this.brickRowCount,
+            ctx: this.ctx,
+            width: this.brickWidth,
+            height: this.brickHeight,
+            padding: this.brickPadding,
+            offsetLeft: this.brickOffsetLeft,
+            offsetTop: this.brickOffsetTop,
+            color: this.column1Color,
+        });
+
 
         this.rightPressed = false;
         this.leftPressed = false;
@@ -54,7 +60,7 @@ class Game {
         this.ball.y = this.canvas.height - 30;
         this.ball.dy = -2;
         this.ball.dx = (Math.random() * 4 - 2);
-        this.paddle.x = paddleXStart;
+        this.paddle.x = this.paddleXStart;
     }
 
     collisionDetection() {
@@ -63,9 +69,9 @@ class Game {
                 const brick = this.bricks.bricks[c][r];
                 if (brick.status === 1) {
                     if (this.ball.x > brick.x &&
-                        this.ball.x < brick.x + brickWidth &&
+                        this.ball.x < brick.x + this.brickWidth &&
                         this.ball.y > brick.y &&
-                        this.ball.y < brick.y + brickHeight) {
+                        this.ball.y < brick.y + this.brickHeight) {
                         this.ball.dy = -this.ball.dy;
                         brick.status = 0;
                         this.scoreLabel.value += 1;
@@ -100,7 +106,7 @@ class Game {
             } else {
                 this.livesLabel.value -= 1;
                 if (this.livesLabel.value < 1) {
-                    alert(gameOverMessage);
+                    alert(this.gameOverMessage);
                     document.location.reload();
                 } else {
                     this.resetBallAndPaddle();
@@ -133,7 +139,7 @@ class Game {
         document.addEventListener('mousemove', (e) => {
             const relativeX = e.clientX - this.canvas.offsetLeft;
             if (this.relativeX > 0 && relativeX < this.canvas.width) {
-                this.paddle.moveTo(relativeX - this.paddle.width / 2, paddleYStart);
+                this.paddle.moveTo(relativeX - this.paddle.width / 2, this.paddleYStart);
             }
         }, false);
     }

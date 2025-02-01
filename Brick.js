@@ -18,6 +18,6 @@ class Brick {
     };
 
     render(brick, color) {
-        makeBox(brick.x, brick.y, brickWidth, brickHeight, color);
+        this.makeBox(brick.x, brick.y, this.width, this.height, color);
     }
 }
