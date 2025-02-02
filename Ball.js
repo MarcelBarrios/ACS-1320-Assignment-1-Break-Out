@@ -2,11 +2,14 @@ class Ball {
     constructor(x = 0, y = 0, dx = -2, dy = -2, radius = 10, color = 'red', ctx) {
         this.x = x;
         this.y = y;
+        this.color = color;
+
         this.dx = dx;
         this.dy = dy;
         this.radius = radius;
-        this.color = color;
+
         this.PI2 = Math.PI * 2;
+
         this.ctx = ctx;
     }
 

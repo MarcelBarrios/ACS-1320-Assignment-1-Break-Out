@@ -1,5 +1,5 @@
-class Paddle {
-    constructor(x, y, width, height, color = 'red', ctx) {
+class Sprite {
+    constructor(x = 0, y = 0, width = 10, height = 10, color = 'red', ctx) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -18,15 +18,11 @@ class Paddle {
         this.y = y;
     }
 
-    makeBox(x, y, width, height, color) {
+    render(ctx, color) {
         this.ctx.beginPath();
-        this.ctx.rect(x, y, width, height);
+        this.ctx.rect(this.x, this.y, this.width, this.height);
         this.ctx.fillStyle = color;
         this.ctx.fill();
         this.ctx.closePath();
-    };
-
-    render(ctx) {
-        this.makeBox(this.x, this.y, this.width, this.height, this.color);
     }
 }
