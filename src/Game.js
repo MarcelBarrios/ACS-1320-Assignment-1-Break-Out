@@ -1,3 +1,9 @@
+import Ball from './Ball';
+import Sprite from './Sprite';
+import Bricks from './Bricks';
+import GameLabel from './GameLabel';
+import Background from './Background';
+
 class Game {
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
@@ -22,8 +28,8 @@ class Game {
         this.gameOverMessage = 'GAME OVER';
 
         this.background = new Background(this.ctx, this.backgroundColor, this.canvas);
-        this.scoreLabel = new GameLabel('Score: ', 8, 20);
-        this.livesLabel = new GameLabel('Lives: ', this.canvas.width - 65, 20);
+        this.scoreLabel = new GameLabel('Score: ', 8, 20, this.colorWhiteText);
+        this.livesLabel = new GameLabel('Lives: ', this.canvas.width - 65, 20, this.colorWhiteText);
         this.paddle = new Sprite(this.paddleXStart, this.paddleYStart, this.paddleWidth, this.paddleHeight, this.paddleColor, this.ctx);
         this.ball = new Ball(0, 0, 2, -2, this.ballRadius, this.ballColor, this.ctx);
         this.bricks = new Bricks({
@@ -163,3 +169,5 @@ class Game {
         });
     };
 }
+
+export default Game;

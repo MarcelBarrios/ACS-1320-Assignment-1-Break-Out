@@ -11,3 +11,5 @@ class Background {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
+
+export default Background;

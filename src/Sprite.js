@@ -26,3 +26,5 @@ class Sprite {
         this.ctx.closePath();
     }
 }
+
+export default Sprite;

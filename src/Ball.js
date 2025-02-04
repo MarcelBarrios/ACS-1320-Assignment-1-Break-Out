@@ -1,8 +1,8 @@
-class Ball {
+import Sprite from './Sprite';
+
+class Ball extends Sprite {
     constructor(x = 0, y = 0, dx = -2, dy = -2, radius = 10, color = 'red', ctx) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
+        super(x, y, radius * 2, radius * 2, color);
 
         this.dx = dx;
         this.dy = dy;
@@ -14,8 +14,7 @@ class Ball {
     }
 
     move() {
-        this.x += this.dx;
-        this.y += this.dy;
+        this.moveBy(this.dx, this.dy);
     }
 
     render() {
@@ -26,3 +25,5 @@ class Ball {
         this.ctx.closePath();
     };
 }
+
+export default Ball;
